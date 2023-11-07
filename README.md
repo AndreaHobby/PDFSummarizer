@@ -32,16 +32,16 @@ To run this app locally, you'll need to set up the following:
 
 Install the required Python packages using pip install -r requirements.txt.
 Set your OpenAI API key as an environment variable. You can do this by running the following command in your terminal:
-sh
-Copy code
+
 export OPENAI_API_KEY=YOUR_API_KEY_HERE
+
 Ensure that you don't include quotes around the API key in the environment variable.
 
 ## Usage
 Run the app by executing the following command in your terminal:
-sh
-Copy code
+
 streamlit run app.py
+
 Access the app in your web browser by following the link provided in the terminal.
 
 ## License
