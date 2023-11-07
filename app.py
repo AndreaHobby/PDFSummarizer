@@ -5,6 +5,7 @@ import streamlit as st
 import tempfile
 from PIL import Image
 from io import BytesIO
+import time  # Import the time module
 
 # Set Your API Key as an Environment Variable:
 # In your terminal, set your OpenAI API key as an environment variable.
@@ -22,6 +23,7 @@ def extract_text_from_pdf(pdf_path):
             text += page.get_text()
     return text
 
+# Function to ask a question using OpenAI's API
 @st.cache_data
 def ask_openai_question(text, question, openai_api_key):
     openai.api_key = openai_api_key
@@ -34,6 +36,8 @@ def ask_openai_question(text, question, openai_api_key):
             stop=["\n"]
         )
         answer = response.choices[0].text.strip()
+        # Introduce a pause to handle rate limits
+        time.sleep(1)  # Adjust the sleep duration as needed
         return answer
     except Exception as e:
         return f"An error occurred: {str(e)}"
