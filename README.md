@@ -2,7 +2,7 @@
 
 A simple Streamlit app that allows users to upload PDF documents, extract text from them, and ask questions to an OpenAI-powered language model for generating answers.
 
-![PDF Summarizer App](https://github.com/AndreaHobby/MaternalHealthLegislationApp/raw/main/MaternalHealthHeader.jpg)
+![PDF Summarizer App](https://github.com/AndreaHobby/PDFSummarizer/raw/main/img/Header.jpg)
 
 
 ## Table of Contents
