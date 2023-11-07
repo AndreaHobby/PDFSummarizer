@@ -10,12 +10,11 @@ from io import BytesIO
 # In your terminal, set your OpenAI API key as an environment variable.
 # You can do this by running the following command (replace YOUR_API_KEY_HERE with your actual OpenAI API key):
 # export OPENAI_API_KEY=YOUR_API_KEY_HERE
-# Ensure that you don't include quotes around the API key in the environment variable.
-# This is really important because the app will not work if this is not done.
+# Ensure that you don't include quotes around the API key in the environment variable. This is really important because the app will not work if this is not done.
 
 st.set_page_config(layout='wide', page_title='PDF Summarizer App')
 
-# Function to extract text from a PDF
+@st.cache_data
 def extract_text_from_pdf(pdf_path):
     with fitz.open(pdf_path) as pdf:
         text = ""
@@ -23,7 +22,7 @@ def extract_text_from_pdf(pdf_path):
             text += page.get_text()
     return text
 
-# Function to ask a question using OpenAI's API
+@st.cache_data
 def ask_openai_question(text, question, openai_api_key):
     openai.api_key = openai_api_key
     try:
@@ -40,7 +39,6 @@ def ask_openai_question(text, question, openai_api_key):
         return f"An error occurred: {str(e)}"
 
 # Streamlit app
-
 def main():
     extracted_text = ""
     # Add custom CSS styles to change the background color to purple
@@ -51,28 +49,6 @@ def main():
             background-color: purple;
         }
         </style>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # Centered title using HTML and CSS
-    st.markdown(
-        """
-        <div style="text-align:center;">
-        <h1>Question & Answering</h1>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # Centered container for image and text
-    st.markdown(
-        """
-        <div style="text-align:center;">
-        <img src="https://github.com/AndreaHobby/MaternalHealthApp/raw/main/MaternalHealthHeader.jpg"
-        style="max-width:100%;"
-        alt="Maternal Health Legislation App"/>
-        </div>
         """,
         unsafe_allow_html=True
     )
@@ -95,7 +71,6 @@ def main():
     uploaded_file = st.file_uploader("Upload a PDF file", type=["pdf"])
 
     if uploaded_file is not None:
-        # Create a temporary file to save the uploaded PDF
         with tempfile.NamedTemporaryFile(delete=False) as temp_file:
             temp_file.write(uploaded_file.read())
             temp_file_path = temp_file.name
@@ -107,7 +82,6 @@ def main():
                 st.error("Error: The uploaded PDF has more than 8 pages. This app only analyzes the first 8 pages.")
             else:
                 extracted_text = extract_text_from_pdf(temp_file_path)
-                # Create a button to show/hide extracted text
                 show_text = st.button("Show Extracted Text")
                 if show_text:
                     st.header("Extracted Text from Uploaded PDF")
@@ -125,7 +99,6 @@ def main():
                     else:
                         st.warning("Please enter a question.")
 
-                # Display PDF pages as images
                 for page in pdf:
                     img = page.get_pixmap(matrix=fitz.Matrix(3, 3))
                     img_bytes = img.tobytes()
@@ -134,7 +107,6 @@ def main():
 
     else:
         st.warning("Please upload a valid PDF file.")
-
 
 if __name__ == "__main__":
     main()
