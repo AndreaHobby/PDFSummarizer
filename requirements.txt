@@ -1,3 +1,4 @@
 streamlit
 PyMuPDF==1.18.17
 openai
+Pillow
